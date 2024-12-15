@@ -31,18 +31,20 @@ export default function CreatePage() {
   };
 
   const handleSubmitMessage = () => {
+    const trimmedMessage = mainMessage.trim();
+
     if (!messageType) {
       setError("メッセージの種類を選択してください。");
       return;
     }
 
-    if (!mainMessage.trim()) {
+    if (!trimmedMessage) {
       setError("メインのメッセージを入力してください。");
       return;
     }
 
-    if (mainMessage.length > 500) {
-      setError("メッセージは500文字以内で入力してください。");
+    if (trimmedMessage.length > 500) {
+      setError(`メッセージは500文字以内で入力してください。（現在: ${trimmedMessage.length}文字）`);
       return;
     }
 
@@ -87,7 +89,6 @@ export default function CreatePage() {
       {/* メインのメッセージ入力項目 */}
       <textarea
         value={mainMessage}
-        maxLength={500}
         onChange={(e) => setMainMessage(e.target.value)}
         placeholder="ここにメインのメッセージを入力してください"
         className="w-full max-w-md h-40 p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-gray-500 mb-4"
@@ -112,6 +113,7 @@ export default function CreatePage() {
 
       {/* AI相談用ダイアログ */}
       <AIConsultationDialog
+        messageType={messageType}
         isOpen={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
         onSubmit={handleDialogSubmit}

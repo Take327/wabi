@@ -48,7 +48,7 @@ button:hover, .btn:hover {
   border: 2px solid #d4cdb5; /* 和紙らしい縁取り */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  border-radius: 12px;
+  border-radius: 10px;
 }
 
 .text-vertical {
@@ -59,6 +59,7 @@ button:hover, .btn:hover {
   line-height: 2.5rem;
   color: #333;
   overflow-wrap: break-word; /* 長い単語を折り返す */
+  min-height: 15rem;
   max-height: 30rem; /* 高さ制限を25remに設定 */
   overflow-y: auto; /* 高さを超えた場合はスクロール */
   white-space: pre-wrap; /* 改行をそのまま反映 */
