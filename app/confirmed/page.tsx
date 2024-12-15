@@ -21,12 +21,20 @@ export default function ConfirmedPage() {
 
   const generateShortUrl = async (longUrl: string) => {
     try {
-      const response = await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}`);
+      const response = await fetch("/api/shorten", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ original_url: longUrl }),
+      });
+
       if (response.ok) {
-        const shortUrl = await response.text();
-        setShortUrl(shortUrl);
+        const data = await response.json();
+        setShortUrl(data.short_url);
       } else {
-        setError("短縮URLの生成に失敗しました。");
+        const errorData = await response.json();
+        setError(errorData.error || "短縮URLの生成に失敗しました。");
       }
     } catch (error) {
       console.error("短縮URL生成エラー:", error);

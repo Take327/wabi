@@ -1,10 +1,10 @@
 import { useState } from "react";
 
 type AIConsultationDialogProps = {
-  messageType:string
+  messageType: string;
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (inputs: string[]) => void; // 入力内容を親に渡す
+  onSubmit: (response: string) => void; // AIからの応答を親に渡す
 };
 
 export default function AIConsultationDialog({
@@ -53,7 +53,7 @@ export default function AIConsultationDialog({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ inputs: filteredInputs }),
+        body: JSON.stringify({ inputs: questionText }),
       });
 
       if (!response.ok) {

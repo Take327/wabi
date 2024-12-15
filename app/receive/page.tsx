@@ -10,24 +10,43 @@ export default function ReceivePage() {
   const [messageType, setMessageType] = useState("");
   const [message, setMessage] = useState("");
   const [isBurning, setIsBurning] = useState(false);
+  const [error, setError] = useState("");
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    // URLパラメータからデータを復元
-    const type = searchParams.get("type");
-    const message = searchParams.get("message");
-    if (type && message) {
-      setMessageType(decodeURIComponent(type));
-      setMessage(decodeURIComponent(message));
+    // URLパラメータからデータを取得
+    const shortKey = searchParams.get("key");
+
+    if (shortKey) {
+      fetchMessage(shortKey);
+    } else {
+      setError("URLが無効です。");
     }
   }, [searchParams]);
+
+  const fetchMessage = async (shortKey: string) => {
+    try {
+      const response = await fetch(`/api/shorten?key=${shortKey}`);
+      if (response.ok) {
+        const data = await response.json();
+        setMessageType(data.type || "未定義のメッセージタイプ");
+        setMessage(data.message || "メッセージが見つかりません。");
+      } else {
+        const errorData = await response.json();
+        setError(errorData.error || "メッセージが見つかりません。");
+      }
+    } catch (error) {
+      console.error("メッセージ取得エラー:", error);
+      setError("メッセージを取得中にエラーが発生しました。");
+    }
+  };
 
   const handleBurn = () => {
     setIsBurning(true);
     setTimeout(() => {
       setMessageType("");
       setMessage("");
-    }, 3000); // アニメーションの終了タイミングに合わせてメッセージを消去
+    }, 7000); // アニメーションの終了タイミングに合わせてメッセージを消去
   };
 
   return (
@@ -43,8 +62,8 @@ export default function ReceivePage() {
         {isBurning && (
           <div className="absolute flex justify-center inset-0 z-30">
             <div className={`${isBurning ? styles.fadeOut : ""}`}>
-              <FireAnimation />
-            </div>
+            <FireAnimation />
+          </div>
           </div>
         )}
         {message && messageType ? (
@@ -67,7 +86,7 @@ export default function ReceivePage() {
             </button>
           </>
         ) : (
-          <></>
+          <p className="text-gray-600">お焚き上げ</p>
         )}
       </div>
     </div>
