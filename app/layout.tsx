@@ -22,7 +22,7 @@ export default function RootLayout({
         </header>
 
         {/* メインコンテンツ */}
-        <main className="flex-grow bg-gray-100 text-gray-700">{children}</main>
+        <main className="flex-grow w-full bg-gray-100 text-gray-700">{children}</main>
 
         {/* フッター */}
         <footer className="w-full bg-gray-800 text-gray-300 py-4 text-center">

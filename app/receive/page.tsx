@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import MessageCard from "../components/MessageCard";
+import FireAnimation from "../components/FireAnimation";
 
 export default function ReceivePage() {
   const [messageType, setMessageType] = useState("");
   const [message, setMessage] = useState("");
+  const [isBurning, setIsBurning] = useState(false);
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -19,6 +21,14 @@ export default function ReceivePage() {
     }
   }, [searchParams]);
 
+  const handleBurn = () => {
+    setIsBurning(true);
+    setTimeout(() => {
+      setMessageType("");
+      setMessage("");
+    }, 3000); // アニメーションの終了タイミングに合わせてメッセージを消去
+  };
+
   return (
     <div className="flex flex-col items-center min-h-screen px-4 py-8 bg-gray-100">
       <h2 className="text-lg font-semibold text-gray-700 mb-2">WABIについて</h2>
@@ -27,7 +37,8 @@ export default function ReceivePage() {
         <br />
         謝罪、別れの言葉、お悔やみのメッセージなど、大切な気持ちを言葉にして相手に届けることができます。
       </p>
-
+      
+      {isBurning && <div className="flex min-w-full items-center  max-w-5xl"><FireAnimation /></div>} {/* FireAnimation を表示 */}
       {message && messageType ? (
         <>
           <MessageCard messageType={messageType} message={message} />
@@ -36,7 +47,10 @@ export default function ReceivePage() {
             ※送信者への通知などはありません。送信者に意図が伝わらないようにデータの削除も行われません。<br/>
             あなたの中でこのアドレスを削除して開かないようにしましょう。
           </p>
-          <button className="mt-4 px-6 py-3 bg-red-500 text-white rounded shadow hover:bg-red-600 transition">
+          <button
+            onClick={handleBurn}
+            className="mt-4 px-6 py-3 bg-red-500 text-white rounded shadow hover:bg-red-600 transition"
+          >
             燃やす
           </button>
         </>
