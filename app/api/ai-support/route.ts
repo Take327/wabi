@@ -44,10 +44,16 @@ export async function POST(request: Request) {
 
     // AIからの応答を返す
     return NextResponse.json({ suggestion });
-  } catch (error: any) {
-    console.error("Error processing request:", error);
+  } catch (error: unknown) {
+    let errorMessage = "Unknown error";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    console.error("Error processing request:", errorMessage);
     return NextResponse.json(
-      { error: "サーバーエラーが発生しました。", details: error.message },
+      { error: "サーバーエラーが発生しました。", details: errorMessage },
       { status: 500 }
     );
   }

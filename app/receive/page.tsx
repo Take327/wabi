@@ -59,11 +59,12 @@ export default function ReceivePage() {
       </p>
 
       <div className="relative w-full max-w-5xl">
+        {error && <p className="text-red-600 mb-4 text-center">{error}</p>}
         {isBurning && (
           <div className="absolute flex justify-center inset-0 z-30">
             <div className={`${isBurning ? styles.fadeOut : ""}`}>
-            <FireAnimation />
-          </div>
+              <FireAnimation />
+            </div>
           </div>
         )}
         {message && messageType ? (

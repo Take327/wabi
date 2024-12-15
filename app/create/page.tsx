@@ -6,7 +6,6 @@ import AIConsultationDialog from "../components/AIConsultationDialog";
 
 export default function CreatePage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [aiConsultationData, setAiConsultationData] = useState<string>(""); // AIからの回答を保持
   const [mainMessage, setMainMessage] = useState("");
   const [messageType, setMessageType] = useState("");
   const [error, setError] = useState("");
@@ -27,7 +26,6 @@ export default function CreatePage() {
   }, [mainMessage, messageType]);
 
   const handleDialogSubmit = (aiResponse: string) => {
-    setAiConsultationData(aiResponse); // AIの回答をセット
     setMainMessage(aiResponse); // メインメッセージに反映
   };
 
