@@ -73,7 +73,7 @@ export default function ReceivePage() {
               <MessageCard messageType={messageType} message={message} />
             </div>
             <p className="text-gray-600 mt-4">
-              メッセージを受け入れられない場合は"お焚き上げ"しましょう
+              メッセージを受け入れられない場合は「お焚き上げ」しましょう
               <br />
               ※送信者への通知などはありません。送信者に意図が伝わらないようにデータの削除も行われません。
               <br />
