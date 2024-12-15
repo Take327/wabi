@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import MessageCard from "../components/MessageCard";
 import FireAnimation from "../components/FireAnimation";
 import styles from "../components/MessageCard.module.css";
@@ -11,18 +10,18 @@ export default function ReceivePage() {
   const [message, setMessage] = useState("");
   const [isBurning, setIsBurning] = useState(false);
   const [error, setError] = useState("");
-  const searchParams = useSearchParams();
 
+  // クライアントサイドでのみ動作
   useEffect(() => {
-    // URLパラメータからデータを取得
-    const shortKey = searchParams.get("key");
+    const params = new URLSearchParams(window.location.search);
+    const shortKey = params.get("key");
 
     if (shortKey) {
       fetchMessage(shortKey);
     } else {
       setError("URLが無効です。");
     }
-  }, [searchParams]);
+  }, []);
 
   const fetchMessage = async (shortKey: string) => {
     try {
