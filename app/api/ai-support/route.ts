@@ -1,57 +1,54 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || "", // 環境変数が設定されていない場合はエラー
+  apiKey: process.env.OPENAI_API_KEY || "", // 環境変数でAPIキーを管理
 });
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method !== "POST") {
-    res.setHeader("Allow", ["POST"]);
-    res.status(405).end("Method Not Allowed");
-    return;
-  }
-
-  const { category } = req.body;
-
-  if (!category || typeof category !== "string") {
-    res.status(400).json({ error: "カテゴリが無効です。" });
-    return;
-  }
-
+export async function POST(request: Request) {
   try {
+    const body = await request.json();
+    const { inputs } = body; // フロントエンドから送信されたデータ
+
+    if (!inputs || typeof inputs !== "string" || inputs.trim().length === 0) {
+      return NextResponse.json(
+        { error: "入力データが無効です。" },
+        { status: 400 }
+      );
+    }
+
+    // OpenAI APIリクエスト
     const response = await openai.chat.completions.create({
-      model: "gpt-4",
+      model: "gpt-4o-mini", // 使用可能なモデルを指定
       messages: [
         {
           role: "system",
-          content: "あなたはメッセージ作成をサポートするAIです。",
+          content: "あなたは手紙の文章を作成するAIアシスタントです。",
         },
         {
           role: "user",
-          content: `カテゴリ「${category}」に基づいて適切な文章を生成してください。`,
+          content: inputs, // フロントエンドから送られた文章
         },
       ],
-      max_tokens: 100,
+      max_tokens: 500,
       temperature: 0.7,
     });
 
     const suggestion = response.choices[0]?.message?.content?.trim();
-
     if (!suggestion) {
-      res.status(500).json({ error: "AIサポートの生成に失敗しました。" });
-      return;
+      return NextResponse.json(
+        { error: "AIサポートの生成に失敗しました。" },
+        { status: 500 }
+      );
     }
 
-    res.status(200).json({ suggestion });
+    // AIからの応答を返す
+    return NextResponse.json({ suggestion });
   } catch (error: any) {
-    console.error("Error calling OpenAI API:", error);
-    res.status(500).json({
-      error: "AIサポートの生成に失敗しました。",
-      details: error.message || error,
-    });
+    console.error("Error processing request:", error);
+    return NextResponse.json(
+      { error: "サーバーエラーが発生しました。", details: error.message },
+      { status: 500 }
+    );
   }
 }

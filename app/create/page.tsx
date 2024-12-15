@@ -118,18 +118,6 @@ export default function CreatePage() {
         onClose={() => setIsDialogOpen(false)}
         onSubmit={handleDialogSubmit}
       />
-
-      {/* デバッグ用にデータを表示 */}
-      {aiConsultationData.length > 0 && (
-        <div className="mt-6 p-4 border border-gray-300 rounded">
-          <h2 className="text-lg font-semibold mb-2">送信されたデータ:</h2>
-          <ul className="list-disc list-inside space-y-1">
-            {aiConsultationData.map((data, index) => (
-              <li key={index}>{data}</li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
 }
