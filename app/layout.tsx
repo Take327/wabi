@@ -1,4 +1,6 @@
+import Link from 'next/link';
 import './globals.css';
+
 export const metadata = {
   title: 'WABI',
   description: '想いを静かに伝えるサービス',
@@ -14,7 +16,9 @@ export default function RootLayout({
       <body className="flex flex-col min-h-screen">
         {/* ヘッダー */}
         <header className="w-full bg-black text-white py-4 text-center">
-          <h1 className="text-2xl font-bold">WABI</h1>
+          <Link href="/" className="text-2xl font-bold">
+            WABI
+          </Link>
         </header>
 
         {/* メインコンテンツ */}

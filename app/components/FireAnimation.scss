@@ -1,0 +1,207 @@
+$particles: 201;
+$duration: 1500ms;
+
+@mixin clothoid-gradient($color: #000000, $alpha-from: 1, $alpha-to: 0) {
+ $diff: $alpha-from - $alpha-to;
+ background-image: radial-gradient(
+  closest-side,
+  rgba($color, $alpha-from) 0%,
+  rgba($color, $alpha-from - $diff * 0.7) 50%,
+  rgba($color, $alpha-from - $diff * 0.85) 65%,
+  rgba($color, $alpha-from - $diff * 0.925) 75.5%,
+  rgba($color, $alpha-from - $diff * 0.963) 82.85%,
+  rgba($color, $alpha-from - $diff * 0.981) 88%,
+  rgba($color, $alpha-to) 100%
+ );
+}
+
+body {
+ margin: 0;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ min-height: 400px;
+ background-color: #000000;
+}
+
+#wrapper {
+ width: 400px;
+ height: 400px;
+ position: relative;
+ filter: contrast(120%);
+}
+
+.particle {
+ width: 68px;
+ height: 68px;
+ border-radius: 50%;
+ @include clothoid-gradient($color: #ff895b, $alpha-from: 0.8, $alpha-to: 0);
+ position: absolute;
+ bottom: 0;
+ left: 45%;
+ mix-blend-mode: screen;
+ animation-duration: $duration;
+ animation-iteration-count: infinite;
+ animation-timing-function: linear;
+ animation-fill-mode: backwards;
+ transform-origin: 50% 0;
+}
+
+@for $i from 1 to $particles {
+ .particle#{$i} {
+  margin-left: random(10) * -1.5px + 5px; //出現位置の横方向をランダム
+  bottom: random(10) * 3px; //出現位置の縦方向をランダム
+  animation-name: fireParticle#{$i % 10 +1};
+  animation-delay: $duration / $particles * $i;
+ }
+}
+
+@keyframes fireParticle1 {
+ 0% {
+  transform: scale(1) translate(0, 0);
+  opacity: 0;
+ }
+ 8% {
+  transform: scale(1) translate(10px, -15px);
+  opacity: 1;
+ }
+ 100% {
+  transform: scale(0.4) translate(-5px, -460px);
+  opacity: 0;
+ }
+}
+
+@keyframes fireParticle2 {
+ 0% {
+  transform: scale(1) translate(0, 0);
+  opacity: 0;
+ }
+ 8% {
+  transform: scale(1) translate(0px, -15px);
+  opacity: 1;
+ }
+ 100% {
+  transform: scale(0.4) translate(15px, -300px);
+  opacity: 0;
+ }
+}
+
+@keyframes fireParticle3 {
+ 0% {
+  transform: scale(1) translate(0, 0);
+  opacity: 0;
+ }
+ 8% {
+  transform: scale(1) translate(25px, -20px);
+  opacity: 1;
+ }
+ 100% {
+  transform: scale(0.4) translate(45px, -370px);
+  opacity: 0;
+ }
+}
+
+@keyframes fireParticle4 {
+ 0% {
+  transform: scale(1) translate(0, 0);
+  opacity: 0;
+ }
+ 8% {
+  transform: scale(1) translate(-25px, -15px);
+  opacity: 1;
+ }
+ 100% {
+  transform: scale(0.4) translate(-45px, -350px);
+  opacity: 0;
+ }
+}
+
+@keyframes fireParticle5 {
+ 0% {
+  transform: scale(1) translate(0, 0);
+  opacity: 0;
+ }
+ 8% {
+  transform: scale(1) translate(30px, -15px);
+  opacity: 1;
+ }
+ 100% {
+  transform: scale(0.4) translate(10px, -300px);
+  opacity: 0;
+ }
+}
+
+@keyframes fireParticle6 {
+ 0% {
+  transform: scale(1) translate(0, 0);
+  opacity: 0;
+ }
+ 8% {
+  transform: scale(1) translate(-10px, -12px);
+  opacity: 1;
+ }
+ 100% {
+  transform: scale(0.4) translate(-5px, -420px);
+  opacity: 0;
+ }
+}
+
+@keyframes fireParticle7 {
+ 0% {
+  transform: scale(1) translate(0, 0);
+  opacity: 0;
+ }
+ 8% {
+  transform: scale(1) translate(10px, -21px);
+  opacity: 1;
+ }
+ 100% {
+  transform: scale(0.4) translate(16px, -430px);
+  opacity: 0;
+ }
+}
+
+@keyframes fireParticle8 {
+ 0% {
+  transform: scale(1) translate(0, 0);
+  opacity: 0;
+ }
+ 8% {
+  transform: scale(1) translate(-20px, -15px);
+  opacity: 1;
+ }
+ 100% {
+  transform: scale(0.4) translate(-15px, -490px);
+  opacity: 0;
+ }
+}
+
+@keyframes fireParticle9 {
+ 0% {
+  transform: scale(1) translate(0, 0);
+  opacity: 0;
+ }
+ 8% {
+  transform: scale(1) translate(10px, -15px);
+  opacity: 1;
+ }
+ 100% {
+  transform: scale(0.4) translate(26px, -480px);
+  opacity: 0;
+ }
+}
+
+@keyframes fireParticle10 {
+ 0% {
+  transform: scale(1) translate(0, 0);
+  opacity: 0;
+ }
+ 8% {
+  transform: scale(1) translate(-5px, -5px);
+  opacity: 1;
+ }
+ 100% {
+  transform: scale(0.3) translate(-26px, -470px);
+  opacity: 0;
+ }
+}
