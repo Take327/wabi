@@ -1,6 +1,12 @@
+"use client"
 import Link from "next/link";
+import { useEffect } from "react";
 
 export default function Home() {
+  useEffect(() => {
+    // セッションストレージをクリア
+    sessionStorage.clear();
+  }, []);
   return (
     <div className="text-center px-4 py-8">
       <h2 className="text-xl font-semibold mb-6">
